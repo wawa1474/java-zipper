@@ -16,18 +16,6 @@ void unzip(File inputFile_, File outputDirectory_) throws IOException {// Unzip 
       } else {
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file), BUFFER_SIZE);
         try {
-          //int b = zipInputStream.read();
-          //println(entry.getSize());
-          //while (b != -1){
-          //  outputStream.write(b);
-          //  b = zipInputStream.read();
-          //}
-          
-          //int size = int(entry.getSize());
-          //byte buffer[] = new byte[size];
-          //zipInputStream.read(buffer, 0 , size);
-          //outputStream.write(buffer);
-          
           outputStream.write(saveBytesRaw(zipInputStream, entry.getSize()));
           outputStream.flush();
         } finally {
@@ -51,12 +39,5 @@ byte[] saveBytesRaw(ZipInputStream zis_, long size_) throws IOException {
     offset += bytesRead;
     if (bytesRead == 0) break;
   }
-  return buffer;
-}
-
-byte[] saveBytesRawTest(ZipInputStream zis_, long size_) throws IOException {
-  int total = int(size_);
-  byte buffer[] = new byte[total];
-  zis_.read(buffer, 0 , total);
   return buffer;
 }

@@ -17,11 +17,6 @@ void zip(File input_, File outputDirectory_) throws IOException {
 
 void zipFolder(File inputDir_, String sofar_, ZipOutputStream zos_) throws IOException {
   String files[] = inputDir_.list();
-  //if(!dir.isDirectory()){//allow this function to zip single files instead of just directories
-  //  files = new String[1];
-  //  files[0] = dir.getName();
-  //  dir = new File(dir.getAbsolutePath().substring(0, dir.getAbsolutePath().indexOf(dir.getName())));
-  //}
   
   for (int i = 0; i < files.length; i++){
     if (files[i].equals(".") || //$NON-NLS-1$
@@ -42,7 +37,7 @@ void zipFolder(File inputDir_, String sofar_, ZipOutputStream zos_) throws IOExc
       ZipEntry entry = new ZipEntry(nowfar);
       entry.setTime(sub.lastModified());
       zos_.putNextEntry(entry);
-      zos_.write(loadBytesRawTest(sub));
+      zos_.write(loadBytesRaw(sub));
       zos_.closeEntry();
     }
   }
@@ -56,9 +51,6 @@ void zipFile(File inputFile_, ZipOutputStream zos_) throws IOException {
   zos_.closeEntry();
 }
 
-/**
- * Same as PApplet.loadBytes(), however never does gzip decoding.
- */
 byte[] loadBytesRaw(File file_) throws IOException {
   int size = int(file_.length());
   FileInputStream input = new FileInputStream(file_);
@@ -69,17 +61,7 @@ byte[] loadBytesRaw(File file_) throws IOException {
     offset += bytesRead;
     if (bytesRead == 0) break;
   }
-  input.close();  // weren't properly being closed
-  input = null;
-  return buffer;
-}
-
-byte[] loadBytesRawTest(File file_) throws IOException {
-  int size = int(file_.length());
-  FileInputStream input = new FileInputStream(file_);
-  byte buffer[] = new byte[size];
-  input.read(buffer, 0, size);
-  input.close();  // weren't properly being closed
+  input.close();
   input = null;
   return buffer;
 }
